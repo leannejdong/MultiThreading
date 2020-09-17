@@ -3,6 +3,6 @@ project(MultiThreading)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(MultiThreading main.cpp)
+add_executable(MultiThreading main.cpp utility.h)
 
 target_link_libraries(MultiThreading pthread)

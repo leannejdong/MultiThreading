@@ -1,48 +1,25 @@
- //Simple one-thread example
-#include <iostream>
-#include <string>
+#include<iostream>
 #include <thread>
 #include <vector>
+#include <numeric>
 
-// single thread
-//void print(int n, const std::string &str)  {
-//    std::cout << "Printing integer: " << n << std::endl;
-//    std::cout << "Printing string: " << str << std::endl;
-//}
+#include "utility.h"
 
-// single thread
-//int main()
-//{
-//    std::thread t1(print, 10, " Cat ");
-//    t1.join();
-//
-//    return 0;
-//    return 0;
-//}
+int main()
+{
+    const int no_of_threads = 5;
+    const int no_of_elems = 500 * 500 * 500;
+    const int step = no_of_elems / no_of_threads;
+    std::vector<uint64_t> partial_sums(no_of_threads);
 
-// multithread
+    std::thread t1(AccumulateRange, std::ref(partial_sums[0]), 0, step);
+    std::thread t2(AccumulateRange, std::ref(partial_sums[1]), step, no_of_threads * step);
 
- void print(int n, const std::string &str)  {
-     std::string msg = std::to_string(n) + " : " + str;
-     std::cout << msg  << std::endl;
- }
+    t1.join();
+    t2.join();
 
- int main() {
-     std::vector<std::string> s = {
-             "Cat.blog",
-             "Cat",
-             "fish",
-             "is yummy"
-     };
-     std::vector<std::thread> threads;
-
-     for (int i = 0; i < s.size(); i++) {
-         threads.push_back(std::thread(print, i, s[i]));
-     }
-
-     for (auto &th : threads) {
-         th.join();
-     }
-     return 0;
- }
+    uint64_t total = std::accumulate(partial_sums.begin(), partial_sums.end(), uint64_t(0));
+    PrintVector(partial_sums);
+    std::cout << " Total: " << total << std::endl;
+}
 
