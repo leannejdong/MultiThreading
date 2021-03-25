@@ -28,4 +28,4 @@ int main()
 
   return 0;
 }
-
+// only 1 thread can lock a mutex at a given time
