@@ -3,3 +3,6 @@
 
 #exclude plug-in
 .idea
+
+#C++ executable
+a.out
