@@ -6,3 +6,6 @@
 
 #C++ executable
 a.out
+
+#all untracked files
+git status -s | grep -e "^\?\?" | cut -c 4- >> .gitignore
